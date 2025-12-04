@@ -1,0 +1,79 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Firework!</title>
+
+    <style>
+        #canvas {
+            position:fixed;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+        }
+        body{
+            background-color: #003153;
+        }
+
+        .headerTile{
+            font-family: "Lucida Console", Courier, monospace;
+            color: #66FF66;
+            width: 100%;
+            text-align: center;
+            margin-top: 150px;
+        }
+
+    </style>
+
+    <script src="js/Scene.js"></script>
+    <script src="js/Spark.js"></script>
+    <script src="js/Shoot.js"></script>
+</head>
+
+<body>
+    <h2 class="headerTile">Fire Work Demo!</h2>
+    <h3 class="headerTile" id="tapNotification">Tap to fire!</h3>
+    <canvas id="canvas"></canvas>
+</body>
+    <script>
+        scene = new Scene('#canvas')
+
+        scene.click(function (e) {
+            corner = Math.round(Math.random())
+            shoot = new Shoot(
+                corner*canvas.width,
+                canvas.height,
+                e.layerX - corner*canvas.width,
+                -(canvas.height-e.layerY)
+            )
+
+            scene.addObject(shoot)
+        })
+
+        demoLeftShoot = new Shoot(
+            0,
+            canvas.height,
+            canvas.width/2,
+            -canvas.height/1.2
+        )
+        demoRightShoot = new Shoot(
+            canvas.width,
+            canvas.height,
+            -canvas.width/2,
+            -canvas.height/1.2
+        )
+
+        scene.addObject(demoLeftShoot)
+        scene.addObject(demoRightShoot)
+
+        var noteInterval
+        window.addEventListener('click', () => {
+            document.getElementById('tapNotification').style.display = "none"
+            clearInterval(noteInterval)
+            noteInterval = setInterval(() => {document.getElementById('tapNotification').style.display = "block"}, 5000)
+        })
+
+
+    </script>
+</html>
